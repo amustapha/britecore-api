@@ -1,7 +1,10 @@
+from sqlite3 import IntegrityError
+
+from django.db import transaction
 from rest_framework import serializers
 
 from .models import Risk, Field, Option, SubmissionSet, SubmissionValue
-
+from time import time
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,17 +29,20 @@ class RiskSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         fields = validated_data.pop('field_set')
-        risk = Risk.objects.create(**validated_data)
-        for field in fields:
-            options = []
-            try:
-                options = field.pop('option_set')
-            except KeyError:
-                pass
-            print field
-            field = Field.objects.create(risk=risk, **field)
-            for option in options:
-                Option.objects.create(field=field, **option)
+        try:
+            with transaction.atomic():
+                risk = Risk.objects.create(**validated_data)
+                for field in fields:
+                    options = []
+                    try:
+                        options = field.pop('option_set')
+                    except KeyError:
+                        pass
+                    field = Field.objects.create(risk=risk, **field)
+                    for option in options:
+                        Option.objects.create(field=field, **option)
+        except IntegrityError:
+            pass
         return risk
 
 
@@ -56,10 +62,12 @@ class SubmissionSerializer(serializers.ModelSerializer):
         fields = ('risk', 'submissionvalue_set')
 
     def create(self, validated_data):
-        print validated_data
         values = validated_data.pop('submissionvalue_set')
-        submission = SubmissionSet.objects.create(**validated_data)
-        print submission
-        for value in values:
-            SubmissionValue.objects.create(set=submission, **value)
+        try:
+            with transaction.atomic():
+                submission = SubmissionSet.objects.create(**validated_data)
+                for value in values:
+                    SubmissionValue.objects.create(set=submission, **value)
+        except IntegrityError:
+            pass
         return submission
