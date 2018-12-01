@@ -1,12 +1,20 @@
 from rest_framework import serializers
 
-from .models import Risk, Field
+from .models import Risk, Field, Option
+
+
+class OptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Option
+        fields = ('id', 'display')
 
 
 class FieldSerializer(serializers.ModelSerializer):
+    option_set = OptionSerializer(many=True, read_only=True, allow_null=True)
+
     class Meta:
         model = Field
-        fields = ('id', 'field', 'type', 'validation', 'message')
+        fields = ('id', 'field', 'type', 'validation', 'message', 'option_set')
 
 
 class RiskSerializer(serializers.ModelSerializer):
@@ -20,5 +28,13 @@ class RiskSerializer(serializers.ModelSerializer):
         risk = Risk.objects.create(**validated_data)
         fields = self.initial_data.get('field_set')
         for field in fields:
-            Field.objects.create(risk=risk, **field)
+            options = []
+            try:
+                options = field.pop('option_set')
+            except KeyError:
+                pass
+
+            field = Field.objects.create(risk=risk, **field)
+            for option in options:
+                Option.objects.create(field=field, **option)
         return risk

@@ -22,3 +22,8 @@ class Field(models.Model):
     def save(self, **kwargs):
         super(Field, self).save(**kwargs)
         self.key = "{}_{}".format(self.id, slugify(self.field))
+
+
+class Option(models.Model):
+    field = models.ForeignKey(Field)
+    display = models.CharField(max_length=255)
