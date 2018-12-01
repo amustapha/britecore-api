@@ -41,9 +41,9 @@ class RiskSerializer(serializers.ModelSerializer):
                     field = Field.objects.create(risk=risk, **field)
                     for option in options:
                         Option.objects.create(field=field, **option)
+                return risk
         except IntegrityError:
             pass
-        return risk
 
 
 class ValueSerializer(serializers.ModelSerializer):
@@ -68,6 +68,6 @@ class SubmissionSerializer(serializers.ModelSerializer):
                 submission = SubmissionSet.objects.create(**validated_data)
                 for value in values:
                     SubmissionValue.objects.create(set=submission, **value)
+            return submission
         except IntegrityError:
             pass
-        return submission
