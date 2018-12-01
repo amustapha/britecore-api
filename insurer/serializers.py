@@ -6,7 +6,7 @@ from .models import Risk, Field
 class FieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = Field
-        fields = ('id', 'field', 'key')
+        fields = ('id', 'field', 'type', 'validation', 'message')
 
 
 class RiskSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
+from django.db import models, transaction
 
 # Create your models here.
 from django.utils.text import slugify
@@ -15,8 +15,10 @@ class Risk(models.Model):
 class Field(models.Model):
     risk = models.ForeignKey(Risk)
     field = models.CharField(max_length=255)
-    key = models.SlugField(max_length=255)
+    type = models.CharField(max_length=20, default='text')
+    validation = models.CharField(max_length=255, verbose_name='Regex Validator', blank=True, null=True)
+    message = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, **kwargs):
-        self.key = "{}-{}".format(Field.objects.count() + 1, slugify(self.field))
         super(Field, self).save(**kwargs)
+        self.key = "{}_{}".format(self.id, slugify(self.field))
