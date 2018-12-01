@@ -16,6 +16,5 @@ class ListRiskView(ListCreateAPIView):
 
 class RiskDetailView(RetrieveAPIView):
     serializer_class = RiskSerializer
+    queryset = Risk.objects.all()
 
-    def get_queryset(self):
-        return Risk.objects.all().select_related()
