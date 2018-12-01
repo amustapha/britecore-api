@@ -27,3 +27,15 @@ class Field(models.Model):
 class Option(models.Model):
     field = models.ForeignKey(Field)
     display = models.CharField(max_length=255)
+
+
+class SubmissionSet(models.Model):
+    risk = models.ForeignKey(Field)
+    timestamp = models.DateField(auto_now=False, auto_now_add=True)
+
+
+class SubmissionValue(models.Model):
+    set = models.ForeignKey(SubmissionSet)
+    field = models.ForeignKey(Field)
+    value = models.TextField()
+
