@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .views import ListRiskView, RiskDetailView, SubmissionView
 
 urlpatterns = [
-    url('^risks/$', ListRiskView.as_view()),
-    url('^risks/(?P<pk>[0-9]+)/$', RiskDetailView.as_view()),
-    url('^submit/$', SubmissionView.as_view())
+    url('^risks/$', ListRiskView.as_view(), name='risk_list_or_create'),
+    url('^risks/(?P<pk>[0-9]+)/$', RiskDetailView.as_view(), name='risk_detail'),
+    url('^submit/$', SubmissionView.as_view(), name='risk_form_submission')
 ]
