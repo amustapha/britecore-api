@@ -74,5 +74,12 @@ class SubmissionSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super(SubmissionSerializer, self).to_representation(instance)
         for i in range(len(data['submissionvalue_set'])):
-            data['submissionvalue_set'][i]['field'] = Field.objects.get(pk=data['submissionvalue_set'][i]['field']).field
+            try:
+                field = Field.objects.get(pk=data['submissionvalue_set'][i]['field'])
+                if field.option_set.count() > 0:
+                    data['submissionvalue_set'][i]['value'] = field.option_set.get(pk=data['submissionvalue_set'][i]['value']).display
+            except Field.DoesNotExist or Option.DoesNotExist:
+                pass
+            data[data['submissionvalue_set'][i]['field']] = data['submissionvalue_set'][i]['value']
+        del data['submissionvalue_set']
         return data
