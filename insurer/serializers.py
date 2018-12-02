@@ -14,7 +14,6 @@ class OptionSerializer(serializers.ModelSerializer):
 
 class FieldSerializer(serializers.ModelSerializer):
     option_set = OptionSerializer(many=True, required=False, allow_null=True)
-
     class Meta:
         model = Field
         fields = ('id', 'field', 'type', 'validation', 'message', 'is_required', 'option_set')
@@ -71,3 +70,9 @@ class SubmissionSerializer(serializers.ModelSerializer):
             return submission
         except IntegrityError:
             pass
+
+    def to_representation(self, instance):
+        data = super(SubmissionSerializer, self).to_representation(instance)
+        for i in range(len(data['submissionvalue_set'])):
+            data['submissionvalue_set'][i]['field'] = Field.objects.get(pk=data['submissionvalue_set'][i]['field']).field
+        return data
