@@ -17,7 +17,7 @@ class FieldSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Field
-        fields = ('id', 'field', 'type', 'validation', 'message', 'option_set')
+        fields = ('id', 'field', 'type', 'validation', 'message', 'is_required' 'option_set')
 
 
 class RiskSerializer(serializers.ModelSerializer):

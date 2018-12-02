@@ -18,6 +18,7 @@ class Field(models.Model):
     type = models.CharField(max_length=20, default='text')
     validation = models.CharField(max_length=255, verbose_name='Regex Validator', blank=True, null=True)
     message = models.CharField(max_length=255, blank=True, null=True)
+    is_required = models.BooleanField(default=False)
 
     def save(self, **kwargs):
         super(Field, self).save(**kwargs)
