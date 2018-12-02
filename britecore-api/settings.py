@@ -25,7 +25,7 @@ SECRET_KEY = 'wrf*hf(c74^vmoe11i%jz+f1@!))tb0%zzruakalwqqcsh(nsu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'insurer'
+    'insurer',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +53,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 
 ROOT_URLCONF = 'britecore-api.urls'
 
@@ -70,7 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'britecore-api.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -101,7 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+)
 
+CSRF_TRUSTED_ORIGINS = (
+    'localhost:8080',
+)
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
