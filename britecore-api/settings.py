@@ -25,7 +25,7 @@ SECRET_KEY = 'wrf*hf(c74^vmoe11i%jz+f1@!))tb0%zzruakalwqqcsh(nsu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'britecore-api.amustapha.name.ng', '4gnpk61zyk.execute-api.us-west-1.amazonaws.com']
 
 
 # Application definition
@@ -110,11 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8080',
+    'localhost:8081',
+    'britecore.amustapha.name.ng'
 )
 
 CSRF_TRUSTED_ORIGINS = (
-    'localhost:8080',
+    'localhost:8081',
+    'britecore.amustapha.name.ng'
 )
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
