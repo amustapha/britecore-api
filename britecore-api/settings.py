@@ -25,7 +25,7 @@ SECRET_KEY = 'wrf*hf(c74^vmoe11i%jz+f1@!))tb0%zzruakalwqqcsh(nsu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'britecore-api.amustapha.name.ng', '4gnpk61zyk.execute-api.us-west-1.amazonaws.com']
+ALLOWED_HOSTS = ['localhost', 'britecore-api.amustapha.name.ng', 'bh6xka8e5l.execute-api.us-west-2.amazonaws.com']
 
 
 # Application definition
@@ -110,12 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8081',
+    'localhost:8080',
     'britecore.amustapha.name.ng'
 )
 
 CSRF_TRUSTED_ORIGINS = (
-    'localhost:8081',
+    'localhost:8080',
     'britecore.amustapha.name.ng'
 )
 # Internationalization
