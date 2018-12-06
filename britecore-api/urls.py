@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^insurer/', include('insurer.urls'))
+    url(r'^insurer/', include('insurer.urls')),
+    url(r'^', include('rest_framework_docs.urls')),
 ]

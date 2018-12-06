@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'insurer',
     'corsheaders',
-
+    'zappa_django_utils',
+    'django_s3_storage',
+    'rest_framework_docs',
 ]
 
 MIDDLEWARE = [
@@ -85,10 +87,17 @@ WSGI_APPLICATION = 'britecore-api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'zappa_django_utils.db.backends.s3sqlite',
+        'NAME': 'db.sqlite3',
+        'BUCKET': 'britecore-deployment'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -130,9 +139,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+YOUR_S3_BUCKET = "britecore-deployment"
+STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
+AWS_S3_BUCKET_NAME_STATIC = YOUR_S3_BUCKET
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % YOUR_S3_BUCKET
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
