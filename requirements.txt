@@ -9,7 +9,7 @@ Django==1.11.16
 django-cors-headers==2.4.0
 django-extensions==2.1.4
 django-s3-storage==0.12.4
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 docutils==0.14
 drfdocs==0.0.11
 durationpy==0.5
